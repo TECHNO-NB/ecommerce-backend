@@ -14,7 +14,7 @@ const port = process.env.PORT || 8000;
 dbs();
 // cors
 app.use(cors({
-    origin: ["*", "http://localhost:5173", process.env.FRONTEND_URL],
+    origin: ["*", "http://localhost:5173", "https://ecommerce-frontend-phi.vercel.app", process.env.FRONTEND_URL],
     methods: ["GET", "POST", "PUT", "UPDATE"],
     credentials: true,
 }));
