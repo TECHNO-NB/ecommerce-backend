@@ -19,7 +19,7 @@ app.use(cors({
     credentials: true,
 }));
 // middlewares
-app.use(express.static("public"));
+app.use(express.static("/src/public"));
 app.use(cookieParser());
 app.use(express.json({ limit: "20mb" }));
 app.use(bodyParser.urlencoded({ limit: "20mb", extended: true }));
