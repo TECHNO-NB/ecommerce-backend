@@ -124,12 +124,7 @@ const googleLoginController = asyncHandler(
    throw new ApiError(400, "Please Fill All Required Field");
   }
 
-  const alreadyRegistredUser = await User.findOne({ email: email });
-  if (alreadyRegistredUser) {
-   throw new ApiError(400, "User Already Registered");
-  }
-
-  const user = await User.create<IUser>({
+ const user = await User.create<IUser>({
    fullName,
    email,
    password: createPassword,
