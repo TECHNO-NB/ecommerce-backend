@@ -11,9 +11,9 @@ import {
 
 const router = express.Router();
 
-router.route("/getallproducts").get(authMiddleware, async (req, res) => {
+router.route("/getallproducts").get(async (req, res) => {
  try {
-  const allProducts = await Product.find({});
+  const allProducts = await Product.find({}).sort({createdAt:-1});
   if (!allProducts) {
    throw new ApiError(500, "Error on fetch all products");
   }
