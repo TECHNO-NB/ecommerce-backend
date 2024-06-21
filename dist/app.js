@@ -14,8 +14,16 @@ const port = process.env.PORT || 8000;
 dbs();
 // cors
 app.use(cors({
-    origin: ["*", "http://localhost:5173", "https://ecommerce-frontend-phi.vercel.app", "https://ecommerce-frontend-phi.vercel.app/", "https://ecommerce-frontend-phi.vercel.app/login", process.env.FRONTEND_URL],
-    methods: ["GET", "POST", "PUT", "UPDATE"],
+    origin: [
+        "*",
+        "http://localhost:5173",
+        "https://ecommerce-frontend-phi.vercel.app",
+        "https://ecommerce-frontend-phi.vercel.app/",
+        "https://ecommerce-frontend-phi.vercel.app/login",
+        "https://ecommerce-frontend-git-main-technonbs-projects.vercel.app",
+        process.env.FRONTEND_URL,
+    ],
+    methods: ["GET", "POST", "PUT", "UPDATE", "DELETE"],
     credentials: true,
 }));
 // middlewares

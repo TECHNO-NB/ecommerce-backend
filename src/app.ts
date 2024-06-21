@@ -18,11 +18,19 @@ dbs();
 
 // cors
 app.use(
-  cors({
-    origin: ["*", "http://localhost:5173","https://ecommerce-frontend-phi.vercel.app","https://ecommerce-frontend-phi.vercel.app/","https://ecommerce-frontend-phi.vercel.app/login", process.env.FRONTEND_URL!],
-    methods: ["GET", "POST", "PUT", "UPDATE"],
-    credentials: true,
-  })
+ cors({
+  origin: [
+   "*",
+   "http://localhost:5173",
+   "https://ecommerce-frontend-phi.vercel.app",
+   "https://ecommerce-frontend-phi.vercel.app/",
+   "https://ecommerce-frontend-phi.vercel.app/login",
+   "https://ecommerce-frontend-git-main-technonbs-projects.vercel.app",
+   process.env.FRONTEND_URL!,
+  ],
+  methods: ["GET", "POST", "PUT", "UPDATE","DELETE"],
+  credentials: true,
+ })
 );
 
 // middlewares
@@ -32,7 +40,7 @@ app.use(express.json({ limit: "20mb" }));
 app.use(bodyParser.urlencoded({ limit: "20mb", extended: true }));
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World");
+ res.send("Hello World");
 });
 
 // routes
@@ -41,5 +49,5 @@ app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/product", productsRoute);
 
 app.listen(port, () => {
-  console.log(`App is listening at port ${port}`);
+ console.log(`App is listening at port ${port}`);
 });
