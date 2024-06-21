@@ -57,7 +57,8 @@ const userLoginController = asyncHandler(
    throw new ApiError(500, "Error On Generating Token");
   }
   const options = {
-   path: "https://ecommerce-frontend-phi.vercel.app",
+   path: "/",
+   domain: "ecommerce-frontend-phi.vercel.app",
    httpOnly: true,
    secure: true,
    sameSite: "none" as const,
