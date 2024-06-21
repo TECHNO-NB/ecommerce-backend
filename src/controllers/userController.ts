@@ -59,6 +59,7 @@ const userLoginController = asyncHandler(
   const options = {
    path: "/",
    domain: "ecommerce-frontend-phi.vercel.app",
+   
    httpOnly: true,
    secure: true,
    sameSite: "none" as const,

@@ -20,6 +20,7 @@ dbs();
 app.use(
  cors({
   origin: [
+   "https://ecommerce-frontend-phi.vercel.app",
    "*",
    "http://localhost:5173",
    "https://ecommerce-frontend-phi.vercel.app",
