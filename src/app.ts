@@ -7,6 +7,7 @@ import productsRoute from "./routes/productsRoute.js";
 import bodyParser from "body-parser";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import session from "express-session";
 
 env.config();
 
@@ -29,7 +30,7 @@ app.use(
    "https://ecommerce-frontend-git-main-technonbs-projects.vercel.app",
    process.env.FRONTEND_URL!,
   ],
-  methods: ["GET", "POST", "PUT", "UPDATE","DELETE"],
+  methods: ["GET", "POST", "PUT", "UPDATE", "DELETE"],
   credentials: true,
  })
 );
@@ -37,6 +38,17 @@ app.use(
 // middlewares
 app.use(express.static("/src/public"));
 app.use(cookieParser());
+app.use(
+ session({
+  secret: "your-secret",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+   sameSite: "none",
+   secure: true,
+  },
+ })
+);
 app.use(express.json({ limit: "20mb" }));
 app.use(bodyParser.urlencoded({ limit: "20mb", extended: true }));
 
