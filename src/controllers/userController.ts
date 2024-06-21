@@ -57,9 +57,8 @@ const userLoginController = asyncHandler(
    throw new ApiError(500, "Error On Generating Token");
   }
   const options = {
-   path: "/",
    domain: "ecommerce-frontend-phi.vercel.app",
-   
+
    httpOnly: true,
    secure: true,
    sameSite: "none" as const,
@@ -99,7 +98,6 @@ const reverifyUser = asyncHandler(async (req: Request, res: Response) => {
   httpOnly: true,
   secure: true,
   sameSite: "none" as const,
-
  };
 
  res.cookie("accessToken", generateAccessToken, options);
