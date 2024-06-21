@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import User from "../models/userModel.js";
 import ApiError from "../utils/apiError.js";
 import ApiResponse from "../utils/apiResponse.js";
+import { Jwt } from "jsonwebtoken";
 
 interface IUser {
  fullName: string;
@@ -113,4 +114,62 @@ const reverifyUser = asyncHandler(async (req: Request, res: Response) => {
   );
 });
 
-export { userController, userLoginController, reverifyUser };
+const googleLoginController = asyncHandler(
+ async (req: Request, res: Response) => {
+  const { fullName, email, password, role } = req.body as IUser;
+
+  const createPassword = email + password + Date.now() + 1000;
+
+  if (!fullName || !email || !password) {
+   throw new ApiError(400, "Please Fill All Required Field");
+  }
+
+  const alreadyRegistredUser = await User.findOne({ email: email });
+  if (alreadyRegistredUser) {
+   throw new ApiError(400, "User Already Registered");
+  }
+
+  const user = await User.create<IUser>({
+   fullName,
+   email,
+   password: createPassword,
+   role,
+  });
+
+  if (!user) {
+   throw new ApiError(500, "Error On Register User");
+  }
+  const newUser = await User.findOne({ email });
+  if (!newUser) {
+   throw new ApiError(500, "Error On Register User");
+  }
+  const generateAccessToken = await newUser.createAccessToken();
+  if (!generateAccessToken) {
+   throw new ApiError(500, "Error On Generating Token");
+  }
+  const options = {
+   domain: "ecommerce-frontend-phi.vercel.app",
+   httpOnly: true,
+   secure: true,
+   sameSite: "none" as const,
+  };
+
+  res.cookie("accessToken", generateAccessToken, options);
+  res
+   .status(200)
+   .json(
+    new ApiResponse(
+     200,
+     { user: newUser, accessToken: generateAccessToken },
+     "User Login SuccessFully:)"
+    )
+   );
+ }
+);
+
+export {
+ userController,
+ userLoginController,
+ reverifyUser,
+ googleLoginController,
+};
