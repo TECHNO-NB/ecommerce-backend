@@ -20,14 +20,8 @@ dbs();
 // cors
 app.use(cors({
     origin: [
-        "https://ecommerce-frontend-phi.vercel.app",
+        "https://scatch-ecommerce.vercel.app",
         "*",
-        "http://localhost:5173",
-        "https://ecommerce-frontend-phi.vercel.app",
-        "https://ecommerce-frontend-phi.vercel.app/admin",
-        "https://ecommerce-frontend-phi.vercel.app/",
-        "https://ecommerce-frontend-phi.vercel.app/login",
-        "https://ecommerce-frontend-git-main-technonbs-projects.vercel.app",
         process.env.FRONTEND_URL,
     ],
     methods: ["GET", "POST", "PUT", "UPDATE", "DELETE"],

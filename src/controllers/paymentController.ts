@@ -31,7 +31,7 @@ const paymentControllers = asyncHandler(async (req: Request, res: Response) => {
   .then((result) => {
    res.status(200).json({ success: true, message: result });
   })
-  .catch((err) => console.log(err));
+  .catch((err:any) => console.log(err));
 });
 
 export { paymentControllers };

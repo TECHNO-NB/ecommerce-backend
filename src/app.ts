@@ -12,7 +12,7 @@ import compression from "compression";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 import payment from "./routes/paymentRoute.js"
-import Stripe from "stripe";
+
 
 
 
@@ -28,15 +28,9 @@ dbs();
 app.use(
  cors({
   origin: [
-   "https://ecommerce-frontend-phi.vercel.app",
+   "https://scatch-ecommerce.vercel.app",
    "*",
-   "http://localhost:5173",
-   "https://ecommerce-frontend-phi.vercel.app",
-   "https://ecommerce-frontend-phi.vercel.app/admin",
-   "https://ecommerce-frontend-phi.vercel.app/",
-   "https://ecommerce-frontend-phi.vercel.app/login",
-   "https://ecommerce-frontend-git-main-technonbs-projects.vercel.app",
-   process.env.FRONTEND_URL!,
+    process.env.FRONTEND_URL!,
   ],
   methods: ["GET", "POST", "PUT", "UPDATE", "DELETE"],
   credentials: true,
