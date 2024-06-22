@@ -11,6 +11,7 @@ import helmet from "helmet";
 import compression from "compression";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
+import payment from "./routes/paymentRoute.js";
 env.config();
 const app = express();
 const port = process.env.PORT || 8000;
@@ -52,6 +53,7 @@ app.get("/", (req, res) => {
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/product", productsRoute);
+app.use("/api/v1", payment);
 app.listen(port, () => {
     console.log(`App is listening at port ${port}`);
 });
