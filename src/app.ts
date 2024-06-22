@@ -7,7 +7,10 @@ import productsRoute from "./routes/productsRoute.js";
 import bodyParser from "body-parser";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
+import helmet from "helmet";
+import compression from "compression";
+import morgan from "morgan";
+import rateLimit from "express-rate-limit";
 
 env.config();
 
@@ -25,6 +28,7 @@ app.use(
    "*",
    "http://localhost:5173",
    "https://ecommerce-frontend-phi.vercel.app",
+   "https://ecommerce-frontend-phi.vercel.app/admin",
    "https://ecommerce-frontend-phi.vercel.app/",
    "https://ecommerce-frontend-phi.vercel.app/login",
    "https://ecommerce-frontend-git-main-technonbs-projects.vercel.app",
@@ -34,6 +38,15 @@ app.use(
   credentials: true,
  })
 );
+app.use(helmet());
+app.use(compression());
+app.use(morgan("combined"));
+
+const limiter = rateLimit({
+ windowMs: 15 * 60 * 1000, // 15 minutes
+ max: 100, // limit each IP to 100 requests per windowMs
+});
+app.use(limiter);
 
 // middlewares
 app.use(express.static("/src/public"));

@@ -58,18 +58,15 @@ const userLoginController = asyncHandler(
    throw new ApiError(500, "Error On Generating Token");
   }
   const options = {
-   domain: "ecommerce-frontend-phi.vercel.app",
-
    httpOnly: true,
    secure: true,
    sameSite: "none" as const,
   };
 
-  res.cookie("accessToken", generateAccessToken, options);
-
   const loginUser = await User.findById(user._id).select("-password");
   res
    .status(200)
+   .cookie("accessToken", generateAccessToken, options)
    .json(
     new ApiResponse(
      200,
@@ -95,16 +92,14 @@ const reverifyUser = asyncHandler(async (req: Request, res: Response) => {
   throw new ApiError(500, "Error On Generating Token");
  }
  const options = {
-  path: "/",
   httpOnly: true,
   secure: true,
   sameSite: "none" as const,
  };
 
- res.cookie("accessToken", generateAccessToken, options);
-
  res
   .status(200)
+  .cookie("accessToken", generateAccessToken, options)
   .json(
    new ApiResponse(
     200,
@@ -133,6 +128,7 @@ const googleLoginController = asyncHandler(
    const options = {
     httpOnly: true,
     secure: true,
+    sameSite: "none" as const,
    };
 
    res
@@ -145,43 +141,42 @@ const googleLoginController = asyncHandler(
       "User Login SuccessFully:)"
      )
     );
-  }
+  } else {
+   const user = await User.create<IUser>({
+    fullName,
+    email,
+    password: createPassword,
+    role,
+   });
 
-  const user = await User.create<IUser>({
-   fullName,
-   email,
-   password: createPassword,
-   role,
-  });
+   if (!user) {
+    throw new ApiError(500, "Error On Register User");
+   }
+   const newUser = await User.findOne({ email });
+   if (!newUser) {
+    throw new ApiError(500, "Error On Register User");
+   }
+   const generateAccessToken = await newUser.createAccessToken();
+   if (!generateAccessToken) {
+    throw new ApiError(500, "Error On Generating Token");
+   }
+   const options = {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict" as const,
+   };
 
-  if (!user) {
-   throw new ApiError(500, "Error On Register User");
+   res
+    .status(200)
+    .cookie("accessToken", generateAccessToken, options)
+    .json(
+     new ApiResponse(
+      200,
+      { user: newUser, accessToken: generateAccessToken },
+      "User Login SuccessFully:)"
+     )
+    );
   }
-  const newUser = await User.findOne({ email });
-  if (!newUser) {
-   throw new ApiError(500, "Error On Register User");
-  }
-  const generateAccessToken = await newUser.createAccessToken();
-  if (!generateAccessToken) {
-   throw new ApiError(500, "Error On Generating Token");
-  }
-  const options = {
-   domain: "ecommerce-frontend-phi.vercel.app",
-   httpOnly: true,
-   secure: true,
-   sameSite: "none" as const,
-  };
-
-  res.cookie("accessToken", generateAccessToken, options);
-  res
-   .status(200)
-   .json(
-    new ApiResponse(
-     200,
-     { user: newUser, accessToken: generateAccessToken },
-     "User Login SuccessFully:)"
-    )
-   );
  }
 );
 
