@@ -124,7 +124,30 @@ const googleLoginController = asyncHandler(
    throw new ApiError(400, "Please Fill All Required Field");
   }
 
- const user = await User.create<IUser>({
+  const alreadyRegistredUser = await User.findOne({ email: email });
+  if (alreadyRegistredUser) {
+   const generateAccessToken = await alreadyRegistredUser.createAccessToken();
+   if (!generateAccessToken) {
+    throw new ApiError(500, "Error On Generating Token");
+   }
+   const options = {
+    httpOnly: true,
+    secure: true,
+   };
+
+   res
+    .status(200)
+    .cookie("accessToken", generateAccessToken, options)
+    .json(
+     new ApiResponse(
+      200,
+      { user: alreadyRegistredUser, accessToken: generateAccessToken },
+      "User Login SuccessFully:)"
+     )
+    );
+  }
+
+  const user = await User.create<IUser>({
    fullName,
    email,
    password: createPassword,
