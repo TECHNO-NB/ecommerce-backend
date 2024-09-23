@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 const adminMiddleware = asyncHandler(async (req, res, next) => {
     const token = req.cookies?.accessToken ||
         req.headers?.authorization?.replace("Bearer ", "");
+    console.log(token);
     if (!token)
         return res.status(401).json({ message: "Unauthorized" });
     let authorize = null;

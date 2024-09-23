@@ -14,6 +14,7 @@ const adminMiddleware = asyncHandler(async (req, res, next) => {
   req.cookies?.accessToken ||
   req.headers?.authorization?.replace("Bearer ", "");
 
+ console.log(token);
  if (!token) return res.status(401).json({ message: "Unauthorized" });
 
  let authorize: JwtPayload | null = null;

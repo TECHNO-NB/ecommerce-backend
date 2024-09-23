@@ -4,6 +4,7 @@ import ApiError from "../utils/apiError.js";
 import ApiResponse from "../utils/apiResponse.js";
 import adminMiddleware from "../middlewares/adminMiddleware.js";
 import { deleteOneProductController, deleteallProductsController, } from "../controllers/adminController.js";
+import { productSortingControllers } from "../controllers/productControllers.js";
 const router = express.Router();
 router.route("/getallproducts").get(async (req, res) => {
     try {
@@ -25,4 +26,5 @@ router
 router
     .route("/deleteallproducts")
     .delete(adminMiddleware, deleteallProductsController);
+router.route("/search-sort").get(productSortingControllers);
 export default router;

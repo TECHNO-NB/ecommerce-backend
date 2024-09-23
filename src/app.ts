@@ -11,10 +11,7 @@ import helmet from "helmet";
 import compression from "compression";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
-import payment from "./routes/paymentRoute.js"
-
-
-
+import payment from "./routes/paymentRoute.js";
 
 env.config();
 
@@ -27,11 +24,7 @@ dbs();
 // cors
 app.use(
  cors({
-  origin: [
-   "https://scatch-ecommerce.vercel.app",
-   "*",
-    process.env.FRONTEND_URL!,
-  ],
+  origin: ["http://localhost:5173", process.env.FRONTEND_URL!],
   methods: ["GET", "POST", "PUT", "UPDATE", "DELETE"],
   credentials: true,
  })
@@ -61,7 +54,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/product", productsRoute);
-app.use("/api/v1",payment)
+app.use("/api/v1", payment);
 
 app.listen(port, () => {
  console.log(`App is listening at port ${port}`);

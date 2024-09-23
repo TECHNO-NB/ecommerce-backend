@@ -8,12 +8,13 @@ import {
  deleteOneProductController,
  deleteallProductsController,
 } from "../controllers/adminController.js";
+import { productSortingControllers } from "../controllers/productControllers.js";
 
 const router = express.Router();
 
 router.route("/getallproducts").get(async (req, res) => {
  try {
-  const allProducts = await Product.find({}).sort({createdAt:-1});
+  const allProducts = await Product.find({}).sort({ createdAt: -1 });
   if (!allProducts) {
    throw new ApiError(500, "Error on fetch all products");
   }
@@ -32,5 +33,7 @@ router
 router
  .route("/deleteallproducts")
  .delete(adminMiddleware, deleteallProductsController);
+
+router.route("/search-sort").get(productSortingControllers);
 
 export default router;

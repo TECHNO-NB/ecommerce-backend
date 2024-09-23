@@ -44,7 +44,7 @@ const userLoginController = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: true,
-        sameSite: "none",
+        sameSite: "strict",
     };
     const loginUser = await User.findById(user._id).select("-password");
     res
@@ -68,7 +68,7 @@ const reverifyUser = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: true,
-        sameSite: "none",
+        sameSite: "strict",
     };
     res
         .status(200)
@@ -90,7 +90,7 @@ const googleLoginController = asyncHandler(async (req, res) => {
         const options = {
             httpOnly: true,
             secure: true,
-            sameSite: "none",
+            sameSite: "strict",
         };
         res
             .status(200)
@@ -126,4 +126,8 @@ const googleLoginController = asyncHandler(async (req, res) => {
             .json(new ApiResponse(200, { user: newUser, accessToken: generateAccessToken }, "User Login SuccessFully:)"));
     }
 });
-export { userController, userLoginController, reverifyUser, googleLoginController, };
+const logOutUser = asyncHandler(async (req, res) => {
+    res.clearCookie('accessToken');
+    return res.status(200).send('Logged out successfully.');
+});
+export { userController, userLoginController, reverifyUser, googleLoginController, logOutUser };

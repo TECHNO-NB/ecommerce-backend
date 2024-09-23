@@ -3,7 +3,9 @@ import ApiError from "../utils/apiError.js";
 import Product from "../models/productModel.js";
 import ApiResponse from "../utils/apiResponse.js";
 import uploadOnCloudinary from "../utils/cloudinary.js";
+import User from "../models/userModel.js";
 const addProductController = asyncHandler(async (req, res) => {
+    console.log("working");
     const { product, description, price, stock, category, rating } = req.body;
     const filePath = req.file?.path;
     if (!product || !description || !price || !stock || !category || !rating) {
@@ -54,4 +56,8 @@ const deleteallProductsController = asyncHandler(async (req, res) => {
         .status(200)
         .json(new ApiResponse(200, allProductDelete, "All Products Delete SuccessFully"));
 });
-export { addProductController, deleteOneProductController, deleteallProductsController, };
+const getAllUsers = asyncHandler(async (req, res) => {
+    const users = await User.find().select("-password");
+    res.status(200).json(new ApiResponse(200, users, "All user fetched"));
+});
+export { addProductController, deleteOneProductController, deleteallProductsController, getAllUsers, };
