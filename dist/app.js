@@ -19,7 +19,12 @@ const port = process.env.PORT || 8000;
 dbs();
 // cors
 app.use(cors({
-    origin: ["http://localhost:5173", process.env.FRONTEND_URL],
+    origin: [
+        "https://scatch-ecommerce.vercel.app/",
+        "https://scatch-ecommerce.vercel.app",
+        "http://localhost:5173",
+        process.env.FRONTEND_URL,
+    ],
     methods: ["GET", "POST", "PUT", "UPDATE", "DELETE"],
     credentials: true,
 }));
