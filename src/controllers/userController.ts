@@ -61,6 +61,7 @@ const userLoginController = asyncHandler(
    httpOnly: true,
    secure: true,
    sameSite: "strict" as const,
+   maxAge: 5 * 24 * 60 * 60 * 1000,
   };
 
   const loginUser = await User.findById(user._id).select("-password");
@@ -95,6 +96,7 @@ const reverifyUser = asyncHandler(async (req: Request, res: Response) => {
   httpOnly: true,
   secure: true,
   sameSite: "strict" as const,
+  maxAge: 5 * 24 * 60 * 60 * 1000,
  };
 
  res
@@ -129,6 +131,7 @@ const googleLoginController = asyncHandler(
     httpOnly: true,
     secure: true,
     sameSite: "strict" as const,
+    maxAge: 5 * 24 * 60 * 60 * 1000,
    };
 
    res
@@ -164,6 +167,7 @@ const googleLoginController = asyncHandler(
     httpOnly: true,
     secure: true,
     sameSite: "strict" as const,
+    maxAge: 5 * 24 * 60 * 60 * 1000,
    };
 
    res
@@ -180,15 +184,15 @@ const googleLoginController = asyncHandler(
  }
 );
 
-const logOutUser=asyncHandler(async(req:Request,res:Response)=>{
-res.clearCookie('accessToken')
-return res.status(200).send('Logged out successfully.');
-})
+const logOutUser = asyncHandler(async (req: Request, res: Response) => {
+ res.clearCookie("accessToken");
+ return res.status(200).send("Logged out successfully.");
+});
 
 export {
  userController,
  userLoginController,
  reverifyUser,
  googleLoginController,
- logOutUser
+ logOutUser,
 };
