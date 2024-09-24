@@ -44,8 +44,8 @@ const userLoginController = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: true,
-        sameSite: "strict",
         maxAge: 5 * 24 * 60 * 60 * 1000,
+        sameSite: 'None'
     };
     const loginUser = await User.findById(user._id).select("-password");
     res
