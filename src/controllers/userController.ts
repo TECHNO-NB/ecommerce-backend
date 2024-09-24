@@ -57,11 +57,11 @@ const userLoginController = asyncHandler(
   if (!generateAccessToken) {
    throw new ApiError(500, "Error On Generating Token");
   }
-  const options:any = {
+  const options = {
    httpOnly: true,
    secure: true,
+   sameSite: "strict" as const,
    maxAge: 5 * 24 * 60 * 60 * 1000,
-   sameSite: 'None'
   };
 
   const loginUser = await User.findById(user._id).select("-password");
