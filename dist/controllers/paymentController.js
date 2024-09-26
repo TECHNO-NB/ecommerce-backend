@@ -1,31 +1,37 @@
 import asyncHandler from "../utils/asyncHandler.js";
 import Stripe from "stripe";
-import ApiError from "../utils/apiError.js";
 import { v4 as uuidv4 } from "uuid";
 uuidv4();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const paymentControllers = asyncHandler(async (req, res) => {
-    const { price, token } = req.body;
-    if (!price || !token) {
-        throw new ApiError(400, "Some things is missing");
+    const { price, products } = req.body;
+    if (!price || !products || !Array.isArray(products)) {
+        console.log("Invalid request data", 400);
     }
-    const idempotencyKey = uuidv4();
-    return stripe.customers
-        .create({
-        email: token.email,
-        source: token.id,
-    })
-        .then((customer) => {
-        stripe.charges.create({
-            amount: price * 100,
-            currency: "usd",
-            receipt_email: token.email,
-            description: "product purchase",
-        }, { idempotencyKey });
-    })
-        .then((result) => {
-        res.status(200).json({ success: true, message: result });
-    })
-        .catch((err) => console.log(err));
+    try {
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ["card"],
+            line_items: products.map((product) => ({
+                price_data: {
+                    currency: "usd",
+                    unit_amount: product.price * 100,
+                    product_data: {
+                        name: product.product,
+                        description: product.description,
+                        images: [product.image],
+                    },
+                },
+                quantity: 1,
+            })),
+            mode: "payment",
+            success_url: `${process.env.FRONTEND_URL}/success`,
+            cancel_url: `${process.env.FRONTEND_URL}/cancel`,
+        });
+        // Send the session URL back to the client
+        res.status(200).json({ id: session.id, url: session.url });
+    }
+    catch (error) {
+        console.log(`Stripe error: ${error}`, 500);
+    }
 });
 export { paymentControllers };

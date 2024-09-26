@@ -55,11 +55,15 @@ app.get("/", (req: Request, res: Response) => {
  res.send("Hello World");
 });
 
+
+
 // routes
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/product", productsRoute);
 app.use("/api/v1", payment);
+
+
 
 app.listen(port, () => {
  console.log(`App is listening at port ${port}`);
