@@ -44,12 +44,13 @@ const userLoginController = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: true,
-        sameSite: "strict",
+        sameSite: "none",
         maxAge: 5 * 24 * 60 * 60 * 1000,
     };
     const loginUser = await User.findById(user._id).select("-password");
     res
         .status(200)
+        // @ts-ignore
         .cookie("accessToken", generateAccessToken, options)
         .json(new ApiResponse(200, { user: loginUser, accessToken: generateAccessToken }, "User Login SuccessFully:)"));
 });
