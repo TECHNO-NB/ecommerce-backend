@@ -69,11 +69,12 @@ const reverifyUser = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: true,
-        sameSite: "strict",
+        sameSite: "none",
         maxAge: 5 * 24 * 60 * 60 * 1000,
     };
     res
         .status(200)
+        //@ts-ignore
         .cookie("accessToken", generateAccessToken, options)
         .json(new ApiResponse(200, { user: verifiedUser, accessToken: generateAccessToken }, "Verify User SuccessFully:)"));
 });

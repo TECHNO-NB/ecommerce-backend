@@ -24,7 +24,7 @@ const paymentControllers = asyncHandler(async (req, res) => {
                 quantity: 1,
             })),
             mode: "payment",
-            success_url: `${process.env.FRONTEND_URL}/success`,
+            success_url: `http://localhost:5173/success`,
             cancel_url: `${process.env.FRONTEND_URL}/cancel`,
         });
         // Send the session URL back to the client

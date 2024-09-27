@@ -9,7 +9,6 @@ import User from "../models/userModel.js";
 
 const addProductController = asyncHandler(
  async (req: Request, res: Response) => {
-  console.log("working")
   const { product, description, price, stock, category, rating } = req.body;
   const filePath = req.file?.path;
 

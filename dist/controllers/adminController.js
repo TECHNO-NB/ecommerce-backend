@@ -5,7 +5,6 @@ import ApiResponse from "../utils/apiResponse.js";
 import uploadOnCloudinary from "../utils/cloudinary.js";
 import User from "../models/userModel.js";
 const addProductController = asyncHandler(async (req, res) => {
-    console.log("working");
     const { product, description, price, stock, category, rating } = req.body;
     const filePath = req.file?.path;
     if (!product || !description || !price || !stock || !category || !rating) {
