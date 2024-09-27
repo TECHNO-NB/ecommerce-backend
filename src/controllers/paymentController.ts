@@ -29,7 +29,7 @@ const paymentControllers = asyncHandler(async (req: Request, res: Response) => {
     quantity: 1,
    })),
    mode: "payment",
-   success_url: `http://localhost:5173/success`,
+   success_url: `${process.env.FRONTEND_URL}/success`,
    cancel_url: `${process.env.FRONTEND_URL}/cancel`,
   });
 

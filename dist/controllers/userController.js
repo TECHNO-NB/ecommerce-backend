@@ -94,11 +94,12 @@ const googleLoginController = asyncHandler(async (req, res) => {
         const options = {
             httpOnly: true,
             secure: true,
-            sameSite: "strict",
+            sameSite: "none",
             maxAge: 5 * 24 * 60 * 60 * 1000,
         };
         res
             .status(200)
+            // @ts-ignore
             .cookie("accessToken", generateAccessToken, options)
             .json(new ApiResponse(200, { user: alreadyRegistredUser, accessToken: generateAccessToken }, "User Login SuccessFully:)"));
     }
@@ -123,11 +124,12 @@ const googleLoginController = asyncHandler(async (req, res) => {
         const options = {
             httpOnly: true,
             secure: true,
-            sameSite: "strict",
+            sameSite: "none",
             maxAge: 5 * 24 * 60 * 60 * 1000,
         };
         res
             .status(200)
+            // @ts-ignore
             .cookie("accessToken", generateAccessToken, options)
             .json(new ApiResponse(200, { user: newUser, accessToken: generateAccessToken }, "User Login SuccessFully:)"));
     }

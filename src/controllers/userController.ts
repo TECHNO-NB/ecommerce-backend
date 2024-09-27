@@ -133,12 +133,13 @@ const googleLoginController = asyncHandler(
    const options = {
     httpOnly: true,
     secure: true,
-    sameSite: "strict" as const,
+    sameSite: "none",
     maxAge: 5 * 24 * 60 * 60 * 1000,
    };
 
    res
     .status(200)
+    // @ts-ignore
     .cookie("accessToken", generateAccessToken, options)
     .json(
      new ApiResponse(
@@ -169,12 +170,13 @@ const googleLoginController = asyncHandler(
    const options = {
     httpOnly: true,
     secure: true,
-    sameSite: "strict" as const,
+    sameSite: "none",
     maxAge: 5 * 24 * 60 * 60 * 1000,
    };
 
    res
     .status(200)
+    // @ts-ignore
     .cookie("accessToken", generateAccessToken, options)
     .json(
      new ApiResponse(
