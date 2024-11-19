@@ -2,6 +2,9 @@ import cloudinary from "cloudinary";
 import fs from "fs";
 import ApiError from "./apiError.js";
 
+console.log(process.env.API_KEY)
+
+
 cloudinary.v2.config({
  cloud_name: "nareshnb",
  api_key: "149319974277394",

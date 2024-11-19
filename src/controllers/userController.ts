@@ -67,7 +67,7 @@ const userLoginController = asyncHandler(
   const loginUser = await User.findById(user._id).select("-password");
   res
    .status(200)
-  // @ts-ignore
+   // @ts-ignore
    .cookie("accessToken", generateAccessToken, options)
    .json(
     new ApiResponse(

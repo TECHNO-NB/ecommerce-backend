@@ -6,6 +6,7 @@ const connectDb = async () => {
     }
     catch (error) {
         console.log("Error on conneting dbs", error);
+        process.exit(1);
     }
 };
 export default connectDb;

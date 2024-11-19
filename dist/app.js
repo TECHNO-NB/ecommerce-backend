@@ -1,5 +1,5 @@
 import express from "express";
-import env from "dotenv";
+import "dotenv/config";
 import dbs from "./database/dbs.js";
 import userRoutes from "./routes/userRoute.js";
 import adminRoute from "./routes/adminRoute.js";
@@ -12,7 +12,7 @@ import compression from "compression";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 import payment from "./routes/paymentRoute.js";
-env.config();
+import order from "./routes/orderRoute.js";
 const app = express();
 const port = process.env.PORT || 8000;
 // connect to database
@@ -49,6 +49,7 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/product", productsRoute);
 app.use("/api/v1", payment);
+app.use("/api/v1", order);
 app.listen(port, () => {
     console.log(`App is listening at port ${port}`);
 });
