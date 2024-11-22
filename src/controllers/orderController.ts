@@ -7,10 +7,10 @@ const getOrdersDetails = asyncHandler(async (req, res) => {
   console.log("Server hit for fetching orders");
   console.log(`User ID: ${req.user._id}`);
 
-  // Fetch all orders for the logged-in user
-  const allOrders = await Order.find({ user: req.user._id }).populate("product");
+  const allOrders = await Order.find({ user: req.user._id }).populate(
+    "product"
+  );
 
-  console.log(allOrders);
   if (!allOrders || allOrders.length === 0) {
     throw new ApiError(404, "No orders found for this user.");
   }

@@ -2,6 +2,12 @@ import asyncHandler from "../utils/asyncHandler.js";
 import User from "../models/userModel.js";
 import ApiError from "../utils/apiError.js";
 import ApiResponse from "../utils/apiResponse.js";
+const options = {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 5 * 24 * 60 * 60 * 1000,
+};
 const userController = asyncHandler(async (req, res) => {
     const { fullName, email, password, role } = req.body;
     if (!fullName || !email || !password) {
@@ -41,12 +47,6 @@ const userLoginController = asyncHandler(async (req, res) => {
     if (!generateAccessToken) {
         throw new ApiError(500, "Error On Generating Token");
     }
-    const options = {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        maxAge: 5 * 24 * 60 * 60 * 1000,
-    };
     const loginUser = await User.findById(user._id).select("-password");
     res
         .status(200)
@@ -67,12 +67,6 @@ const reverifyUser = asyncHandler(async (req, res) => {
     if (!generateAccessToken) {
         throw new ApiError(500, "Error On Generating Token");
     }
-    const options = {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        maxAge: 5 * 24 * 60 * 60 * 1000,
-    };
     res
         .status(200)
         //@ts-ignore
@@ -91,12 +85,6 @@ const googleLoginController = asyncHandler(async (req, res) => {
         if (!generateAccessToken) {
             throw new ApiError(500, "Error On Generating Token");
         }
-        const options = {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: 5 * 24 * 60 * 60 * 1000,
-        };
         res
             .status(200)
             // @ts-ignore
@@ -121,12 +109,6 @@ const googleLoginController = asyncHandler(async (req, res) => {
         if (!generateAccessToken) {
             throw new ApiError(500, "Error On Generating Token");
         }
-        const options = {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: 5 * 24 * 60 * 60 * 1000,
-        };
         res
             .status(200)
             // @ts-ignore
