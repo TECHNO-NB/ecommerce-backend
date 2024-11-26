@@ -1,10 +1,11 @@
 import express from "express";
+import authMiddleware from "../middlewares/authMiddleware.js";
 import Product from "../models/productModel.js";
 import ApiError from "../utils/apiError.js";
 import ApiResponse from "../utils/apiResponse.js";
 import adminMiddleware from "../middlewares/adminMiddleware.js";
 import { deleteOneProductController, deleteallProductsController, } from "../controllers/adminController.js";
-import { productSortingControllers } from "../controllers/productControllers.js";
+import { getSingleProductControllers, productSortingControllers, } from "../controllers/productControllers.js";
 const router = express.Router();
 router.route("/getallproducts").get(async (req, res) => {
     try {
@@ -27,4 +28,7 @@ router
     .route("/deleteallproducts")
     .delete(adminMiddleware, deleteallProductsController);
 router.route("/search-sort").get(productSortingControllers);
+router
+    .route("/getsingleproduct/:id")
+    .get(authMiddleware, getSingleProductControllers);
 export default router;

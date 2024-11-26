@@ -1,4 +1,5 @@
 import Product from "../models/productModel.js";
+import ApiError from "../utils/apiError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
 const productSortingControllers = asyncHandler(async (req, res) => {
@@ -28,4 +29,18 @@ const productSortingControllers = asyncHandler(async (req, res) => {
   res.status(200).json(products);
 });
 
-export { productSortingControllers };
+const getSingleProductControllers = asyncHandler(
+  async (req, res): Promise<any> => {
+    const { id } = req.params;
+    if (!id) {
+      throw new ApiError(400, "Id is required");
+    }
+    const product = await Product.findById(id);
+    if (!product) {
+      throw new ApiError(404, "Product not found");
+    }
+    return res.status(200).json(product);
+  }
+);
+
+export { productSortingControllers,getSingleProductControllers };
