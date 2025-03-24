@@ -6,6 +6,7 @@ import Product from "../models/productModel.js";
 import ApiResponse from "../utils/apiResponse.js";
 import uploadOnCloudinary from "../utils/cloudinary.js";
 import User from "../models/userModel.js";
+import Order from "../models/orderModel.js";
 
 const addProductController = asyncHandler(
  async (req: Request, res: Response) => {
@@ -76,8 +77,26 @@ const deleteallProductsController = asyncHandler(
 );
 
 const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
- const users = await User.find().select("-password");
+ const users = await User.find().select("-password -email -createdAt");
  res.status(200).json(new ApiResponse(200, users, "All user fetched"));
+});
+
+
+const allProducts=asyncHandler(async(req:Request,res:Response)=>{
+  const getAllProducts=await Product.find().select("-description -category -image -rating -createdAt -stock -updatedAt");
+
+  res.status(200).json(new ApiResponse(200, getAllProducts, "All products"));
+
+});
+
+const allOrders=asyncHandler(async(req:Request,res:Response)=>{
+  console.log("Hit server")
+  const getAllOrders=await Order.find()
+  .populate("user","fullName")
+  .select("-quantity -createdAt -product -updatedAt");
+console.log("get all products",getAllOrders)
+  res.status(200).json(new ApiResponse(200, getAllOrders, "All products"));
+
 });
 
 export {
@@ -85,4 +104,6 @@ export {
  deleteOneProductController,
  deleteallProductsController,
  getAllUsers,
+ allProducts,
+ allOrders
 };
