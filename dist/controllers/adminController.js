@@ -4,6 +4,7 @@ import Product from "../models/productModel.js";
 import ApiResponse from "../utils/apiResponse.js";
 import uploadOnCloudinary from "../utils/cloudinary.js";
 import User from "../models/userModel.js";
+import Order from "../models/orderModel.js";
 const addProductController = asyncHandler(async (req, res) => {
     const { product, description, price, stock, category, rating } = req.body;
     const filePath = req.file?.path;
@@ -56,7 +57,19 @@ const deleteallProductsController = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, allProductDelete, "All Products Delete SuccessFully"));
 });
 const getAllUsers = asyncHandler(async (req, res) => {
-    const users = await User.find().select("-password");
+    const users = await User.find().select("-password -email -createdAt");
     res.status(200).json(new ApiResponse(200, users, "All user fetched"));
 });
-export { addProductController, deleteOneProductController, deleteallProductsController, getAllUsers, };
+const allProducts = asyncHandler(async (req, res) => {
+    const getAllProducts = await Product.find().select("-description -category -image -rating -createdAt -stock -updatedAt");
+    res.status(200).json(new ApiResponse(200, getAllProducts, "All products"));
+});
+const allOrders = asyncHandler(async (req, res) => {
+    console.log("Hit server");
+    const getAllOrders = await Order.find()
+        .populate("user", "fullName")
+        .select("-quantity -createdAt -product -updatedAt");
+    console.log("get all products", getAllOrders);
+    res.status(200).json(new ApiResponse(200, getAllOrders, "All products"));
+});
+export { addProductController, deleteOneProductController, deleteallProductsController, getAllUsers, allProducts, allOrders };
